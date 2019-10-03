@@ -8,7 +8,7 @@ namespace OpneClosed_ProfWeb
 {
     class Program
     {
-        public class EmployeeReport
+        public class EmployeeReportOld
         {
             // <summary>
             /// Тип отчета
@@ -32,6 +32,32 @@ namespace OpneClosed_ProfWeb
             }
         }
 
+        public class EmployeeReport
+        {
+            /// <summary>
+            /// Метод для создания отчета
+            /// </summary>
+            public virtual void GenerateReport(Employee em)
+            {
+                // Базовая реализация, которую нельзя модифицировать
+            }
+        }
+
+        public class EmployeeCSVReport : EmployeeReport
+        {
+            public override void GenerateReport(Employee em)
+            {
+                // Генерация отчета в формате CSV
+            }
+        }
+
+        public class EmployeePDFReport : EmployeeReport
+        {
+            public override void GenerateReport(Employee em)
+            {
+                // Генерация отчета в формате PDF
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -42,5 +68,9 @@ namespace OpneClosed_ProfWeb
 
             // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
         }
+    }
+
+    public class Employee
+    {
     }
 }

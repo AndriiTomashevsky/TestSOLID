@@ -6,27 +6,45 @@ using System.Threading.Tasks;
 
 namespace OpenClosed
 {
-    public class Rectangle
+    public class Rectangle : IShape
     {
         public double Width { get; set; }
         public double Height { get; set; }
+
+        public double Area()
+        {
+            return Width * Height;
+        }
+    }
+
+    public class Circle : IShape
+    {
+        public double Radius { get; set; }
+
+        public double Area()
+        {
+            return Math.PI * Radius * Radius;
+        }
     }
 
     public class AreaCalculator
     {
-        public double Area(Rectangle[] shapes)
+        public double Area(IShape[] shapes)
         {
             double area = 0;
+
             foreach (var shape in shapes)
             {
-                area += shape.Width * shape.Height;
+                area += shape.Area();
             }
-
             return area;
         }
     }
 
-
+    public interface IShape
+    {
+        double Area();
+    }
 
     class Program
     {
