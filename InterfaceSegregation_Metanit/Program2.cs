@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace InterfaceSegregation_Metanit2
 {
-    interface IPhone
+    interface IPhoto
+    {
+        void TakePhoto();
+    }
+
+    interface IPhone : IPhoto
     {
         void Call();
-        void TakePhoto();
         void MakeVideo();
         void BrowseInternet();
     }
@@ -37,25 +41,20 @@ namespace InterfaceSegregation_Metanit2
         }
     }
 
-    class Photograph
+    class Camera : IPhoto
     {
-        public void TakePhoto(Phone phone)
-        {
-            phone.TakePhoto();
-        }
-    }
-
-    class Camera : IPhone
-    {
-        public void Call() { }
-
         public void TakePhoto()
         {
             Console.WriteLine("Фотографируем");
         }
+    }
 
-        public void MakeVideo() { }
-        public void BrowseInternet() { }
+    class Photograph
+    {
+        public void TakePhoto(IPhoto photoMaker)
+        {
+            photoMaker.TakePhoto();
+        }
     }
 
     class Program

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// STRATEGY
 namespace OpenClosed_Metanit
 {
     class Cook
@@ -15,7 +16,20 @@ namespace OpenClosed_Metanit
             this.Name = name;
         }
 
-        public void MakeDinner()
+        public void MakeDinner(IMeal meal)
+        {
+            meal.Make();
+        }
+    }
+
+    interface IMeal
+    {
+        void Make();
+    }
+
+    class PotatoMeal : IMeal
+    {
+        public void Make()
         {
             Console.WriteLine("Чистим картошку");
             Console.WriteLine("Ставим почищенную картошку на огонь");
@@ -25,12 +39,24 @@ namespace OpenClosed_Metanit
         }
     }
 
+    class SaladMeal : IMeal
+    {
+        public void Make()
+        {
+            Console.WriteLine("Нарезаем помидоры и огурцы");
+            Console.WriteLine("Посыпаем зеленью, солью и специями");
+            Console.WriteLine("Поливаем подсолнечным маслом");
+            Console.WriteLine("Салат готов");
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
             Cook bob = new Cook("Bob");
-            bob.MakeDinner();
+            bob.MakeDinner(new PotatoMeal());
+            bob.MakeDinner(new SaladMeal());
 
             Console.ReadKey();
         }

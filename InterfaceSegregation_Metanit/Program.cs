@@ -8,27 +8,33 @@ namespace InterfaceSegregation_Metanit
 {
     interface IMessage
     {
-        void Send();
-        string Text { get; set; }
-        string Subject { get; set; }
         string ToAddress { get; set; }
         string FromAddress { get; set; }
 
+        void Send();
+    }
+
+    interface ITextMessage : IMessage
+    {
+        string Text { get; set; }
+    }
+
+    interface IVoiceMessage : IMessage
+    {
         byte[] Voice { get; set; }
     }
 
-    class EmailMessage : IMessage
+    interface IEmailMessage : ITextMessage
+    {
+        string Subject { get; set; }
+    }
+
+    class EmailMessage : IEmailMessage
     {
         public string Subject { get; set; }
         public string Text { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
-
-        public byte[] Voice
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
 
         public void Send()
         {
@@ -36,23 +42,11 @@ namespace InterfaceSegregation_Metanit
         }
     }
 
-    class SmsMessage : IMessage
+    class SmsMessage : ITextMessage
     {
         public string Text { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
-
-        public string Subject
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public byte[] Voice
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
 
         public void Send()
         {
@@ -60,23 +54,11 @@ namespace InterfaceSegregation_Metanit
         }
     }
 
-    class VoiceMessage : IMessage
+    class VoiceMessage : IVoiceMessage
     {
         public string ToAddress { get; set; }
         public string FromAddress { get; set; }
         public byte[] Voice { get; set; }
-
-        public string Text
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public string Subject
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
 
         public void Send()
         {

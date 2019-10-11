@@ -6,42 +6,59 @@ using System.Threading.Tasks;
 
 namespace SingleResponsibility_Metanit
 {
-    class Program
+    interface IPrint
     {
-        class Report
+        void Print(string text);
+    }
+
+    class PrintPDF : IPrint
+    {
+        public void Print(string text)
         {
-            public string Text { get; set; }
+            Console.WriteLine("Печать отчета");
+            Console.WriteLine(text);
+        }
+    }
 
-            public void GoToFirstPage()
-            {
-                Console.WriteLine("Переход к первой странице");
-            }
+    class Report
+    {
+        public string Text { get; set; }
 
-            public void GoToLastPage()
-            {
-                Console.WriteLine("Переход к последней странице");
-            }
-
-            public void GoToPage(int pageNumber)
-            {
-                Console.WriteLine("Переход к странице {0}", pageNumber);
-            }
-
-            public void Print()
-            {
-                Console.WriteLine("Печать отчета");
-                Console.WriteLine(Text);
-            }
+        public void GoToFirstPage()
+        {
+            Console.WriteLine("Переход к первой странице");
         }
 
+        public void GoToLastPage()
+        {
+            Console.WriteLine("Переход к последней странице");
+        }
+
+        public void GoToPage(int pageNumber)
+        {
+            Console.WriteLine("Переход к странице {0}", pageNumber);
+        }
+
+        public void Print(IPrint print)
+        {
+            print.Print(Text);
+        }
+    }
+
+    class Program
+    {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            IPrint printer = new PrintPDF();
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+            Report report = new Report
+            {
+                Text = "Hello Wolrd"
+            };
+
+            report.Print(printer);
+
+            Console.ReadKey();
         }
     }
 }

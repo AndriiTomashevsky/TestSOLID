@@ -10,10 +10,14 @@ namespace InterfaceSegregation_SharpCorner
     {
         void CreateSubTask();
         void AssignTask();
+    }
+
+    public interface IProgrammer
+    {
         void WorkOnTask();
     }
 
-    public class TeamLead : ILead
+    public class TeamLead : ILead, IProgrammer
     {
         public void AssignTask()
         {
@@ -42,25 +46,10 @@ namespace InterfaceSegregation_SharpCorner
         {
             //Code to create a sub task.  
         }
-
-        public void WorkOnTask()
-        {
-            throw new Exception("Manager can't work on Task");
-        }
     }
 
-    public class Programmer : ILead
+    public class Programmer : IProgrammer
     {
-        public void AssignTask()
-        {
-            throw new Exception("Programmer can't assign Task");
-        }
-
-        public void CreateSubTask()
-        {
-            throw new Exception("Programmer can't create subTask");
-        }
-
         public void WorkOnTask()
         {
             //Code to implement perform assigned task.  

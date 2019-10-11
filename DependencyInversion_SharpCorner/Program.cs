@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace DependencyInversion_SharpCorner
 {
-    public class FileLogger
+    public interface ILogger
+    {
+        void LogMessage(string message);
+    }
+
+
+    public class FileLogger : ILogger
     {
         public void LogMessage(string aStackTrace)
         {
@@ -15,7 +21,7 @@ namespace DependencyInversion_SharpCorner
         }
     }
 
-    public class DbLogger
+    public class DbLogger : ILogger
     {
         public void LogMessage(string aMessage)
         {
@@ -25,16 +31,16 @@ namespace DependencyInversion_SharpCorner
 
     public class ExceptionLogger
     {
-        public void LogIntoFile(Exception aException)
+        private ILogger logger;
+
+        public ExceptionLogger(ILogger logger)
         {
-            FileLogger objFileLogger = new FileLogger();
-            objFileLogger.LogMessage(GetUserReadableMessage(aException));
+            this.logger = logger;
         }
 
-        public void LogIntoDataBase(Exception aException)
+        public void LogException(Exception aException)
         {
-            DbLogger objDbLogger = new DbLogger();
-            objDbLogger.LogMessage(GetUserReadableMessage(aException));
+            logger.LogMessage(GetUserReadableMessage(aException));
         }
 
         private string GetUserReadableMessage(Exception ex)
@@ -55,11 +61,11 @@ namespace DependencyInversion_SharpCorner
             }
             catch (IOException ex)
             {
-                new ExceptionLogger().LogIntoDataBase(ex);
+                new ExceptionLogger(new FileLogger()).LogException(ex);
             }
             catch (Exception ex)
             {
-                new ExceptionLogger().LogIntoFile(ex);
+                new ExceptionLogger(new DbLogger()).LogException(ex);
             }
         }
     }

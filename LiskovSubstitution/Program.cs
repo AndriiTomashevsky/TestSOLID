@@ -8,6 +8,16 @@ namespace LiskovSubstitution
 {
     class Program
     {
+        public interface IEmployeeDetails
+        {
+            string GetEmployeeDetails(int id);
+        }
+
+        public interface IWorkDetails
+        {
+            string GetWorkDetails(int id);
+        }
+
         public abstract class Employee
         {
             public virtual string GetWorkDetails(int id)
@@ -21,28 +31,27 @@ namespace LiskovSubstitution
             }
         }
 
-        public class SeniorEmployee : Employee
+        public class SeniorEmployee : IEmployeeDetails, IWorkDetails
         {
-            public override string GetWorkDetails(int id)
+            public string GetWorkDetails(int id)
             {
                 return "Senior Work";
             }
 
-            public override string GetEmployeeDetails(int id)
+            public string GetEmployeeDetails(int id)
             {
                 return "Senior Employee";
             }
         }
 
-        public class JuniorEmployee : Employee
+        public class JuniorEmployee : IEmployeeDetails
         {
-            // Допустим, для Junior’a отсутствует информация
-            public override string GetWorkDetails(int id)
-            {
-                throw new NotImplementedException();
-            }
 
-            public override string GetEmployeeDetails(int id)
+
+
+
+
+            public string GetEmployeeDetails(int id)
             {
                 return "Junior Employee";
             }
@@ -50,14 +59,18 @@ namespace LiskovSubstitution
 
         static void Main(string[] args)
         {
-            List<Employee> list = new List<Employee>();
-
-            list.Add(new JuniorEmployee());
-            list.Add(new SeniorEmployee());
-
-            foreach (Employee emp in list)
+            List<IWorkDetails> workDetails = new List<IWorkDetails>();
+            List<IEmployeeDetails> employeeDetails = new List<IEmployeeDetails>();
+            employeeDetails.Add(new JuniorEmployee());
+            workDetails.Add(new SeniorEmployee());
+            foreach (IWorkDetails emp in workDetails)
             {
-                emp.GetEmployeeDetails(985);
+                Console.WriteLine(emp.GetWorkDetails(985));
+            }
+
+            foreach (IEmployeeDetails emp in employeeDetails)
+            {
+                Console.WriteLine(emp.GetEmployeeDetails(985));
             }
 
             Console.ReadKey();

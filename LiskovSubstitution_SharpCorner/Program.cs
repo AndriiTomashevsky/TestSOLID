@@ -7,47 +7,52 @@ using System.Threading.Tasks;
 
 namespace LiskovSubstitution_SharpCorner
 {
-    public class SqlFile
+    public interface IWritableSqlFile
+    {
+        void SaveText();
+    }
+
+    public interface IReadableSqlFile
+    {
+        string LoadText();
+    }
+
+    public class ReadOnlySqlFile : IReadableSqlFile
     {
         public string FilePath { get; set; }
         public string FileText { get; set; }
 
-        public virtual string LoadText()
+        public string LoadText()
+        {
+            /* Code to read text from sql file */
+            return "LoadTextReadOnlySQL";
+        }
+    }
+
+    public class SqlFile : IWritableSqlFile, IReadableSqlFile
+    {
+        public string FilePath { get; set; }
+        public string FileText { get; set; }
+
+        public string LoadText()
         {
             /* Code to read text from sql file */
             return "LoadText";
         }
 
-        public virtual void SaveText()
+        public void SaveText()
         {
             /* Code to save text into sql file */
         }
     }
 
-    public class ReadOnlySqlFile : SqlFile
-    {
-        public override string LoadText()
-        {
-            /* Code to read text from sql file */
-            return "LoadTextReadOnlySQL";
-        }
-
-        public override void SaveText()
-        {
-            /* Throw an exception when app flow tries to do save. */
-            throw new IOException("Can't Save");
-        }
-    }
-
     public class SqlFileManager
     {
-        public List<SqlFile> lstSqlFiles { get; set; }
-
-        public string GetTextFromFiles()
+        public string GetTextFromFiles(List<IReadableSqlFile> ReadableSqlFiles)
         {
             StringBuilder objStrBuilder = new StringBuilder();
 
-            foreach (var objFile in lstSqlFiles)
+            foreach (var objFile in ReadableSqlFiles)
             {
                 objStrBuilder.Append(objFile.LoadText());
             }
@@ -55,14 +60,11 @@ namespace LiskovSubstitution_SharpCorner
             return objStrBuilder.ToString();
         }
 
-        public void SaveTextIntoFiles()
+        public void SaveTextIntoFiles(List<IWritableSqlFile> WritableSqlFiles)
         {
-            foreach (var objFile in lstSqlFiles)
+            foreach (var objFile in WritableSqlFiles)
             {
-                //Check whether the current file object is read only or not.If yes, skip calling it's  
-                // SaveText() method to skip the exception.  
-                if (!(objFile is ReadOnlySqlFile))
-                    objFile.SaveText();
+                objFile.SaveText();
             }
         }
     }

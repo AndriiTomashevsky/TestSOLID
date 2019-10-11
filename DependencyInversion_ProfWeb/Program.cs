@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace DependencyInversion_ProfWeb
 {
-    public class Email
+    public interface IMessenger
+    {
+        void Send();
+    }
+
+    public class Email : IMessenger
     {
         public void Send()
         {
@@ -14,19 +19,27 @@ namespace DependencyInversion_ProfWeb
         }
     }
 
+    public class SMS : IMessenger
+    {
+        public void Send()
+        {
+            // код для отправки SMS
+        }
+    }
+
     // Уведомление
     public class Notification
     {
-        private Email email;
+        private IMessenger _messenger;
 
-        public Notification()
+        public Notification(IMessenger mes)
         {
-            email = new Email();
+            _messenger = mes;
         }
 
         public void EmailDistribution()
         {
-            email.Send();
+            _messenger.Send();
         }
     }
 
