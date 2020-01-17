@@ -1,0 +1,3 @@
+https://www.c-sharpcorner.com/UploadFile/damubetha/solid-principles-in-C-Sharp/
+https://professorweb.ru/my/it/blog/net/solid.php
+https://metanit.com/sharp/patterns/5.1.php
