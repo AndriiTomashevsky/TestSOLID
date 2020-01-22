@@ -31,27 +31,27 @@ namespace OpenClosed_Metanit2
             FinalStep();
         }
 
-        public abstract void Prepare();
-        public abstract void Cook();
-        public abstract void FinalStep();
+        protected abstract void Prepare();
+        protected abstract void Cook();
+        protected abstract void FinalStep();
 
     }
 
     class PotatoMeal : BaseMeal
     {
-        public override void Cook()
+        protected override void Cook()
         {
             Console.WriteLine("Ставим почищенную картошку на огонь");
             Console.WriteLine("Сливаем остатки воды, разминаем варенный картофель в пюре");
         }
 
-        public override void FinalStep()
+        protected override void FinalStep()
         {
             Console.WriteLine("Посыпаем пюре специями и зеленью");
             Console.WriteLine("Картофельное пюре готово");
         }
 
-        public override void Prepare()
+        protected override void Prepare()
         {
             Console.WriteLine("Чистим картошку");
         }
@@ -59,19 +59,19 @@ namespace OpenClosed_Metanit2
 
     class SaladMeal : BaseMeal
     {
-        public override void Cook()
+        protected override void Cook()
         {
             Console.WriteLine("Нарезаем помидоры и огурцы");
             Console.WriteLine("Посыпаем зеленью, солью и специями");
         }
 
-        public override void FinalStep()
+        protected override void FinalStep()
         {
             Console.WriteLine("Поливаем подсолнечным маслом");
             Console.WriteLine("Салат готов");
         }
 
-        public override void Prepare()
+        protected override void Prepare()
         {
             Console.WriteLine("Моем помидоры и огурцы");
         }
