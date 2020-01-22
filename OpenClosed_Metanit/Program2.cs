@@ -16,9 +16,10 @@ namespace OpenClosed_Metanit2
             this.Name = name;
         }
 
-        public void MakeDinner(BaseMeal meal)
+        public void MakeDinner(BaseMeal[] menu)
         {
-            meal.Make();
+            foreach (BaseMeal meal in menu)
+                meal.Make();
         }
     }
 
@@ -81,9 +82,10 @@ namespace OpenClosed_Metanit2
     {
         static void Main(string[] args)
         {
+            BaseMeal[] menu = new BaseMeal[] { new PotatoMeal(), new SaladMeal() };
+
             Cook bob = new Cook("Bob");
-            bob.MakeDinner(new PotatoMeal());
-            bob.MakeDinner(new SaladMeal());
+            bob.MakeDinner(menu);
 
             Console.ReadKey();
         }
